@@ -1,0 +1,383 @@
+
+\documentclass[draftclsnofoot,onecolumn,twoside]{IEEEtran}
+%\documentclass[conference, letterpaper]{IEEEtran}
+
+
+\usepackage{ctex}
+\usepackage{url}
+\usepackage[pdftex,colorlinks,linkcolor=green,anchorcolor=blue,citecolor=red,backref]{hyperref}
+
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{caption}
+
+\begin{document}
+\hypersetup{CJKbookmarks=true}
+
+\title{\huge{Differential Privacy and Machine Learning:\\
+a Survey and Review}}
+
+\author{\IEEEauthorblockN{Xinkui Wu}\\
+\IEEEauthorblockA{\small School of Electronic Information and Communications,\\
+Huazhong University of Science and Technology, Wuhan, China\\
+Email: wxk96@qq.com}}
+
+
+\IEEEspecialpapernotice{(\today)}
+
+\maketitle
+
+\section{Differentially Private Unsupervised Learning}
+\subsection{K-means clustering}
+
+    K-means clustering is widely used in many applications
+such as classification and feature learning. It aims to cluster
+proximate data together.
+
+    The first differentially private k-means clustering algorithm
+was proposed by Blum et al. \cite{38} as SuLQ k-means.
+Observe that only two queries are required explicitly: 1) the
+number of points in each new cluster and 2) the sum of the data points for each cluster
+to compute the centroid.
+
+    \cite{1} proposes an (ε,δ)-differentially private k-means clustering algorithm using
+the sample and aggregate framework. The mechanism is based on the assumption
+that the data are well-separated. ‘Well separated’ means that the
+clusters can be estimated easily with a small number of samples. This is a
+prerequisite of the sample and aggregate framework. The mechanism randomly
+splits the training set into many subsets, runs the non-private k-means algorithm
+on each subset to get many outputs, and then uses the smooth sensitivity framework
+to publish the output from a dense region differentially privately. This step
+preserves privacy while the underlying k-means algorithm is unchanged.
+
+    \cite{5} aims to remove
+the assumption that the trajectories contain a lot of identical prefixes or n-grams,
+which is not true in many applications and propose a differentially private publishing
+mechanism for more general time-series trajectories. In this paper, they use classic k-means
+clustering to partition the original trajectories into m group based on their pairwise Euclidean
+distances to significantly improve the efficiency. The partition approach the optimum since k-means
+prefers to grouping closer trajectories. Meanwhile, adding or removing a single trajectory cannot
+significantly change the partition result.
+
+    In recent years, a large and growing body of literature has investigated
+differentially private data analysis. Broadly, they can
+be classified into two approaches. The interactive approach aims at
+developing customized differentially private algorithms for specific
+data mining tasks.  The non-interactive
+approach aims at developing an approach to compute, in a differentially
+private way, a synopsis of the input dataset, which can then
+be used to generate a synthetic dataset, or to directly support various
+data mining tasks. In \cite{11}，they propose to combine the
+non-interactive differentially private synopsis algorithms with k-means
+clustering. They introduce a hybrid approach
+to differentially private data analysis, which is so far the best approach
+to k-means clustering that further improves these cluster centroids.
+
+    In \cite{15}, they introduce GUPT, a platform that allows organizations
+to allow external aggregate analysis on their datasets
+while ensuring that data analysis is performed in a differentially
+private manner.Thay show using results from running common
+machine learning algorithms such as k-means clustering that
+GUPT does not significantly affect the accuracy of data
+analysis.When performing k-means clustering on the same dataset and the same iteration, the data accuracy of GUPT
+is higer than the other differential privacy system(PINQ).
+
+    Privacy definitions provide ways for trading-off the privacy
+of individuals in a statistical database for the utility of downstream
+analysis of the data. In \cite{16}, they present Blowfish, a class of privacy definitions inspired by the Pufferfish
+framework, that provides a rich interface for this trade-off. They use the SULQ k-means
+mechanism with the appropriate policy specific sensitivity
+and thus satisfy privacy under
+the Blowfish policy while ensuring better accuracy. That's to say, using the
+example of k-means clustering illustrate the gains in accuracy
+for Blowfish policies having weaker sensitive information
+specifications.
+
+    From what has been discussed above, K-means clustering algorithm is fast and simple to realize.
+The time complexity is close to linear and is suitable for mining large data sets. However,In the k-means algorithm,
+K is given in advance, and the selection of K value is very difficult to estimate. Most of the time, it's best not to know in advance
+how many categories a given data set should fall into. Besides, In the k-means algorithm, an initial partition should be determined according
+to the initial clustering center, and then the initial partition should be optimized.The selection of the initial
+clustering center has a great influence on the clustering results. Once the initial value selection is poor,
+the effective clustering results may not be obtained. What can be seen from the K-means algorithm framework is that
+the algorithm needs to constantly adjust sample classification and calculated the adjusted new clustering center,
+so when is a large amount of data, the algorithm of time overhead is very large.
+
+\subsection{DBSCAN(Density-Based Spatial Clustering of Applications with Noise)}
+
+\cite{22}\cite{23}\cite{24}\cite{25}（标注：下载前两篇文献）
+
+    \cite{22}
+
+    \cite{23}
+
+    In \cite{24}, they investigate how one can achieve the privacy goal that the inclusion of his
+location history in a statistical database with interesting location mining capability does not substantially
+increase risk to his privacy.They use a standard spatial decomposition such
+as a quadtree, with DBSCAN clustering to achieve both tree-based density-based spatial
+objects clustering and to demonstrate the differential privacy mechanism on a tree-based
+location mining approach. The DBSCAN density-based clustering algorithm is used to extract
+the likely interesting regions.
+
+
+     DP-DBSCAN is more
+time-consuming with less clustering for larger datasets and
+smaller privacy budget parameters.
+    In \cite{25}, they put forward a differential
+privacy preservation multiple cores DBSCAN clustering(DP-MCDBSCAN) schema based on the powerful differential privacy
+and DBSCAN algorithm for network user data to effectively leverage the privacy leakage issue in the process
+of data mining, enhancing data clustering efficaciously by adding Laplace noise. Privacy analysis demonstrates
+that their DP-MCDBSCAN clustering schema
+can not only meet the publishers' query needs but also
+prevent the data of publishers from being attacked. Different from
+DP-DBSCAN, DP-MCDBSCAN solves the randomness
+and blindness of DP-DBSCAN effectively by
+optimizing the selection of the initial core points.
+
+    Compared with the K-means method, DBSCAN does not need to know the number of cluster classes to be formed in advance
+and can find clusters of any shape.At the same time, DBSCAN can identify noise points.DBSCAN is not sensitive to the order
+ of samples in the database, that is, the input order of Pattern has little effect on the result.However, for the sample
+at the boundary between cluster classes, it may fluctuate according to which cluster class is detected first and whose attribution.
+Besides，DBSCAN does not reflect high dimensional data well and If the density of the sample set is not uniform and the cluster spacing
+ difference is large, the cluster quality is poor.
+
+
+\subsection{Hierarchical Clustering}
+
+    In order to avoid the problem of k value selection and initial clustering center selection in k-means clustering method,
+the hierarchical clustering is a kind of clustering that can be divided into large clusters from top to bottom which is
+called division method.It can also aggregate small categories from bottom to top, which is called condensation method.
+However, the most commonly used method is the condensation method from the bottom up.
+
+    In \cite{39}，it mentions that Cluster analysis is the process of grouping a set of data
+objects into multiple groups or clusters so that objects within
+a cluster have high similarity, but are very dissimilar to
+objects in other clusters. Dissimilarities and similarities are
+assessed based on the attribute values describing the objects
+and often involve distance measures.Similar to the k-means clustering method, the hierarchical clustering method also
+can be applied to differential privacy data protection and it doesn't need select k value and initial clustering center.
+
+    The integration of information dispersed among multiple
+repositories is a crucial step for accurate data analysis in
+various domains. In \cite{26}, they introduce a novel model for practical private record linkage
+(PRL), which 1) affords controlled and limited information
+leakage, 2) avoids false matches resulting from data transformation.
+Besides, applied obfuscation relies on differential privacy which provides
+strong privacy guarantees against adversaries with arbitrary
+background knowledge. Once the partitioning identifier is selected, the third party Charlie who helps the execution of the protocol without
+learning any record from either A or B applies agglomerative hierarchical clustering on the set of values in
+the public domain of the partitioning identifier. Partitioning the data sources into blocks
+is to eliminate comparisons for records that are unlikely to
+match. During blocking, Charlie forms the
+global block basis through a hierarchical clustering over the
+domain of the selected public identifier. The hierarchical clustering can make blocking performed efficiently
+without significant computational cost.
+
+    In \cite{27}, they introduce a novel construction for practical
+ and privacy-aware selective record retrieval over encrypted databases.
+ Our approach leaks obfuscated access
+pattern to enable efficient retrieval while ensuring individual privacy.
+Applied obfuscation is based on differential privacy which provides rigorous
+individual privacy guarantees against adversaries with arbitrary background knowledge.
+
+    To reduce overall obfuscation cost by distributing initial
+query interfaces among distinct replicas is an instance of a
+clustering problem. Their replication strategy is based
+on a common clustering technique, known as agglomerative
+hierarchical clustering.Initially, a distinct cluster is
+formed for each query interface.After
+initial construction, clusters are successively combined until
+no improvement is achieved on the obfuscation cost.Once
+final query interfaces and associated replicas are identified,
+private indexes are formed on them.
+
+
+\section{Differentially Private Dimensionality Reduction}
+\subsection{Feature Selection}
+
+    So-called dimension disaster is when the feature dimension exceeds a certain limit,
+the performance of the classifier with the increase of feature dimension is worse instead
+The higher the dimension, the greater the time cost of training model.
+What leads to the decrease the perfomance of the classifier is often because the cause of the high dimension features
+contain irrelevant and redundant features, so the main purpose of the feature selection is to remove
+features of irrelevant and redundant features.
+    Irrelevant feature refers to the feature that is irrelevant to the current learning task
+(the information provided by this feature is useless for the current learning task).
+For the student achievement, the student number is irrelevant feature. Redundant feature refers to
+the characteristics of the information contained in can marked out from other aspects, such as for the
+characteristics of "area", can from "long" and "wide", then it is redundant feature.
+
+    The privacy-preserving data analysis has been gained significant interest across several research
+communities. The current researches mainly focus on privacy-preserving classification and regression.
+However, feature selection is also an essential component for data analysis,
+which can be used to reduce the data dimensionality and can be utilized to discover knowledge, s
+uch as inherent variables in data. In \cite{40}, in order to efficiently mine sensitive data,
+a privacy preserving feature selection algorithm is proposed and analyzed in theory based on local learning
+and differential privacy. （需要下载该文献）
+
+    Feature selection brings the immediate effects of speeding up a machine learning or data mining algorithm,
+improving learning accuracy, and enhancing model comprehensibility. Various studies show that features can be
+removed without performance deterioration. More-over, feature selection also leads to better data visualization,
+reduction of measurement and storage requirements.
+
+    Within exiting privacy models, differential privacy is considered one of the
+strongest privacy protection techniques that does not make any assumption about the attacker’s background knowledge.
+This approach, however, is not suitable for
+high-dimensional data with large domains as the added noise substantially destroys the utility of the data.
+
+    In \cite{41}, they propose the TOP-Diff algorithm which offers a trade-off between anonymization level K and the privacy budget ε,
+and enables us to publish privacy preserving datasets with high utility. They propose a novel technique for privacy preserving data publishing satisfying differential privacy
+and use feature selection in order to minimize the negative impact of injecting noise into the contingency table.  There are two broad categories of feature
+selection techniques, namely, filters and wrappers. Filter approach attempts to assess the merits of features from the
+data without considering the induction algorithm. The wrapper model, on the other hand, uses a target learning
+algorithm in order to estimate the worth of attribute subsets. They propose the TOP-Diff algorithm which incorporates
+the ultimate usage of the data and employs feature selection in order to achieve a differentially private dataset on
+K-anonymous dataset, thus maintaining high utility for further data
+analysis according to a given task.
+
+    \cite{21} proposes an ε-differentially private feature selection, PrivateKD, for classification.
+PrivateKD is based on the assumption that all features are categorical
+and each feature has finite possible values. For any set of features S, it defines
+a function F(S) which tells how many pairs of samples from different classes
+can features in S distinguish. The set of selected features S′ is initialized to Φ.
+Then a greedy algorithm adds new features one by one to S′. When selecting
+a feature to add, the algorithm uses the exponential mechanism to select the
+feature that can lead to the largest increase of F(S′). The paper provides a
+utility guarantee for the special case where the cardinality of sample space m
+and the number of features d have the relation m = d - 1. In that case, except
+probability O(1/poly(m)) (poly(m) means a polynomial expression of m),
+F(S′) ≥ (1 - 1/e)F(Soptimal) - O(logm/ε ).
+
+    \cite{37} proposes an (ε, δ)-differentially private algorithm for feature selection
+when the target function is stable. Unlike the previous paper, this paper doesn’t
+explicitly state the algorithm for feature selection. Instead, it only requires the
+selection algorithm to be stable. By 'stable', we mean that either the value of
+function as calculated on the input dataset doesn’t change when some samples
+in the set change, or that the function can output the same result on a random
+subset from the input dataset with high probability.
+
+\subsection{Principal Component Analysis}
+
+\cite{2}\cite{8}\cite{9}\cite{10}\cite{17}\cite{18}\cite{19}\cite{20}\cite{32}
+    
+    PCA is the simplest method to analyze multivariate statistical distribution by eigenvalue. 
+The result can be interpreted as an explanation of the variance in the original data: which 
+direction of data value has the greatest influence on the other side difference.In other words, 
+PCA provides an effective way to reduce data dimensions.If the analyst removes the components corresponding 
+to the smallest eigenvalues from the original data, the resulting low-dimensional data must be optimized.
+    
+    Often, the training of models requires large, representative
+datasets, which may be crowdsourced and contain sensitive
+information. The models should not expose private information
+in these datasets. In \cite{2}, they develop new
+algorithmic techniques for learning and a refined analysis of
+privacy costs within the framework of differential privacy.
+Principal component analysis
+(PCA) is a useful method for capturing the main features
+of the input data. They implement the differentially private
+PCA algorithm. They incur a privacy cost due to running a PCA. However,
+they find it useful for both improving the model quality and for
+reducing the training time, as suggested by our experiments
+on the MNIST data. Accuracy is quite stable
+over a large range of choices for the projection dimensions
+and the noise level used in the PCA stage.
+    
+    In \cite{8}, they investigate the theory and
+empirical performance of differentially private approximations to PCA and propose a new method
+which explicitly optimizes the utility of the output.
+
+    \cite{17}
+    
+    \cite{18}
+    
+    \cite{19}
+    
+    \cite{20}
+
+    \cite{32}
+
+    Principal Component Analysis (PCA) is a popular method in dimension reduction.
+It finds k orthogonal directions on which the projections of data have
+largest variance. The original data can then be represented by its projection
+onto those k directions. Usually k is much smaller than the dimension of sample
+space. Thus the projection greatly reduces the dimensionality of the data.
+It is well-known that this analysis is closely related to eigen-decomposition: if
+we rank the eigenvectors of matrix A = Var[X] according to the corresponding
+eigenvalues λ1 ≥ λ2 ≥ ...≥ λp, then the first k eigenvectors are the k directions.
+
+    There are two differentially private mechanisms to select eigenvectors iteratively.
+The iterative methods are based on the spectral decomposition, which
+ensures that if the components corresponding to the first i - 1 eigenvectors of
+A are subtracted from A, then the i-th largest eigenvector becomes the largest
+eigenvector of what remains. Therefore the process of selecting the largest k
+eigenvectors can be replaced by repeatedly finding the first eigenvector and removing
+the component corresponding to the selected eigenvector. The following
+two mechanisms both make use of this idea but differ on how to select the first
+eigenvector.
+
+    An (ε, δ)-differentially private mechanism is proposed in \cite{9}. The mechanism
+uses the power method: Anv/kAnvk converges to the first eigenvector of
+A if v is not orthogonal to the first eigenvector. It randomly starts with a unitlength
+vector v, then iteratively updates v with (Av + ηi)/kAv + ηik while
+ηi is Gaussian noise in the i-th iteration. Since it is exceedingly improbable
+that a random vector is orthogonal to the first eigenvector, the vector v will
+get close to the first eigenvector. However due to the noise, v cannot converge
+with arbitrary accuracy. Thus it outputs v after a fixed number of iterations
+and proceed to find the next largest eigenvector. A utility guarantee is provided
+on the power method, which outputs the first eigenvector. However there is
+no direct guarantee on the k eigenvectors. For each eigenvector a output by
+running the power method on matrix A, the distance from the first eigenvector
+(kAak/kak - λ1 while λ1 is the first eigenvalue) is O((
+p
+log(1/δ) log n)/ε).
+
+    \cite{10} provides an ε-differentially private mechanism for principal component
+analysis. According to the property that the first eigenvector v of A is the unitlength
+vector that maximizes vTAv, the mechanism uses H(X, v) = vTAv as
+the score function in the exponential mechanism to select the first eigenvector
+from the set {v : vT v = 1} differentially privately. The selection algorithm is
+specially designed to be computable in reasonable time. This paper also provides
+two proofs on utility of this mechanism. For any  0 \textless δ \textless 1 and privacy budget
+ε, if the first eigenvalue of matrix A, λ1 \textgreater  O(ln(1/δ)/(nεδ)), then the first
+eigenvector v has the property E[vTAv] ≥ (1 - δ)λ1. For any 0 \textless δ \textless 1 and
+privacy budget ε, if the first eigenvalue λ1 \textgreater O(1/(nεδ6)), the k+1-th eigenvalue
+is denoted λk+1, and the k-rank approximation matrix output is denoted Ak,
+then the largest eigenvalue of A - Ak is smaller than λk+1 + δλ1 with large
+probability.
+
+
+    
+    The widely-used principal component analysis (PCA) and 
+linear discriminant analysis (LDA) are two representative feature projection techniques 
+– the former is for unsupervised learning and the latter for classification. 
+PCA is an orthonormal transformation of data to a low-dimensional space such that
+maximum variance of the original data is preserved. PCA works well for
+a lot of data analysis problems but does not fit well for classification purposes. 
+LDA and other supervised feature selection techniques are better positioned for classification in 
+that they reduce the input features in such a way that maximum separability between target classes is preserved.
+    
+
+\subsection{Singular Value Decomposition}
+
+\cite{33}\cite{35}\cite{8}\cite{36}
+
+
+    \cite{33}
+
+    \cite{35}
+    
+    \cite{8}
+
+    \cite{36}
+
+
+
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{mybib}
+
+
+\end{document}
+
+

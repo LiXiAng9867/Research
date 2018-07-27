@@ -1,0 +1,144 @@
+\documentclass[draftclsnofoot,onecolumn,twoside]{IEEEtran}
+\usepackage{ctex}
+\usepackage{url}
+\usepackage[colorlinks,linkcolor=green,anchorcolor=blue,citecolor=red,backref]{hyperref}
+\usepackage{caption}
+
+\begin{document}
+\hypersetup{CJKbookmarks=true}
+
+\title{\huge{A Survey on Differentially Private Machine Learning}}
+
+\maketitle
+\section{Differentially Private Supervised Learning}
+
+Supervised machine learning is that one can learn the mapping function from the training data to the respective known labels, and the goal is to train a model to predict accurate output(label) with the new input data. It is called classification problem if the label is a category, such as "blue" or "red" or "0" or "1". Alternatively, a regression problem is when the label is continuous like "weight". We will introduce supervised machine learning algorithms with differential privacy in this section.
+
+
+
+\subsection{Naive Bayes Model}
+In machine learning, Naive Bayes model is a simple but powerful classifier which predicts label $Y$ with features in $X$. A Naive Bayesian model is particularly used for large datasets because there are no complicated iterative parameter estimates. The Naive Bayesian classifier is based on Bayes' theorem and the naive independence assumptions between features. Bayes theorem provides a method for calculating the posterior probability:
+\begin{equation}
+P\left(Y|X\right)=\frac{P\left(X|Y\right)P\left(Y\right)}{P\left(X\right)}
+\end{equation}
+The conditional independence assumptions means that the features in $X$ are independent of each other. On the premise of this hypothesis, we can reduce the parameter scale required to calculate the conditional probability. We can suppose $X$ has n features, and then:
+\begin{equation}
+P\left(X|Y\right)=P\left(X_1|Y\right)\*P\left(X_2|Y\right)\*\cdots\*P\left(X_n|Y\right)
+\end{equation}
+
+
+Given x, we can determine which category it belongs to by looking for the output with the highest posterior probability: $argmax_{y_k}P\left(y_k|x\right)$. In summary:
+\begin{equation}
+P\left(y_k|x\right) = \frac{P\left(x|y_k\right)P\left(y_k\right)}{\sum_{k}P\left(x|y_k\right)P\left(y_k\right)}
+\end{equation}
+where the $P\left(y_k\right)$ in the molecule can be easily calculated based on the training set and $P\left(x|y_k\right) = \prod_{i=1}^{n}P\left(x_i|y_k\right)$. The naive Bayes classifier can ultimately be expressed as:
+\begin{equation}
+f(x) = argmaxP(y_x)\prod_{i=1}^{n}P\left(x_i|y_k\right)
+\end{equation}
+
+
+
+
+~\cite{Vaidya2013Differentially} would like to apply the rigorous model of differential privacy to develop a Naive Bayes classifier which can protect privacy of users' data to the best extent possible. The basic idea of this paper is to derive the sensitivity of the classifier parameters and analyze them to know how to add Laplacian noise. This paper mentions that the calculation of conditional probabilities is different for nominal and numerical attributes, and then it discusses how to derive sensitivity separately in these two cases. In addition, it should be noted that in both cases, the sensitivity of the prior probability can be calculated in a similar way. After this, they add the Laplacian noise of the appropriate scale to the parameters such as the counts of categorical attributes. The processed parameters are then used in the standard Naive Bayes model so that the classifier can provide a strong privacy guarantee. This description can not insure the computed parameters are non-negative because the noise added can be negative. So they resample the Laplace distribution as many times to avoid this problem.
+
+
+~\cite{two} mainly randomly divide the data to be trained and aggregate the intermediate results of the data in the partition. They propose a hypothesis that the variance of the posterior distribution of the data of a partition is proportional to the variance of the posterior distribution of the complete data set, thus finding the posterior probability. They prove that the average probability approximates the posterior probability of giving a complete data set. Finally, the difference private statistics published to analysts contain noise $\eta$ to ensure differential privacy, where $\eta$ is a draw from the Laplace distribution.
+
+Previous work has proven that polynomial approximation is useful in differential privacy. ~\cite{Ald2015The} propose Bernstein functional mechanism to achieve the privatization of function value mapping and prove that this mechanism is applicable to explicitly and implicitly defined functions through theoretical analysis. They use an iterative Bernstein operator for polynomial approximation of the target function and polynomial coefficient perturbation to ensure privacy by eliminating the approximation coefficients.
+
+
+
+
+In addition to adding noise in the original parameter domain, differential privacy can also be achieved by adding noise in the frequency domain.
+~\cite{Zhang2015On} study how to communicate the results of Bayesian inference to third parties under the premise of ensuring differential privacy. To this end, they implement two mechanisms for the probabilistic graphical model of Bayesian inference, including adding noise directly to the posterior parameters or their Fourier transforms. They mainly focuse on the Bayesian inference of PGMs (probabilistic graphical models), introduce a maximum-a-posteriori private mechanism and use this mechanism to preliminarily demonstrate that independent structures should affect privacy.
+
+
+
+
+\subsection{Linear Regression}
+
+Linear regression is commonly used for predictive analysis and attempts to fit a relationship between two variables with a linear equation where the model output is a continuous value. We can make an estimation function $f(x)=\theta_{0}+\theta_{1}x_{1}+\theta_{2}x_{2}$, where the $x_{1}$ and $x_{2}$ are the specific feature values and the parameter $\theta$ describes the influence of each feature. In the form of a vector, it is $f(x)=\theta^{T}X$. We generally choose the sum of squares as the loss function to evaluate whether $\theta$ is appropriate. There are many ways to adjust $\theta$ so that loss function takes the minimum, such as min square method or gradient descent method.
+
+
+~\cite{Wu2015Revisiting} study the relationship between differential privacy and stable learning theory and proved that output perturbation can get better privacy/utility trade-offs. They propose three methods of perturbation in this paper and apply the output perturbation which is one of the easy-to-implement mechanisms to the linear regression. For example, in Data-Independent Output Perturbation, they put $R = 1$ and pick the $\lambda$ as $\sqrt{d/n\varepsilon_p}$ with the theorem mentioned in this paper. Their mechanisms are regularized versions of least squares optimization and they also describe in detail how to select parameters to regularize linear regression.
+
+
+Regression involves solving an optimization problem, it is not easy to choose methods for $\varepsilon$-differentially private regression because we have difficulty in determining the minimum amount of the necessary noise. ~\cite{Zhang2012Functional} propose a mechanism to perturb the objective function of the optimization problem to enforce privacy protect. Roughly speaking, they use FM(an extension of the Laplace mechanism) to inject noise directly into the parameter $\theta$ when implementing this mechanism on linear regression and then they optimize $\omega$ during the operation of the noise objective function. Finally the noise results of the perturbed optimization problem then achieves $\varepsilon$-differential privacy.
+This mechanism is also mentioned in~\cite{Wang2016Based}, they add $Lap(2(d + 1)2/\varepsilon)$ noise to each multi-item coefficient.
+
+
+In~\cite{Upadhyay2017Differentially}, they focuse on the space restricted streaming algorithms and explore differential privacy on streamed data. Unlike traditional differential privacy mechanisms, they reversibly perturb the input instead of the output by adding noise. They random sample of the rows or columns of the streamed matrix or generated a random sketch of the matrix. After that, they perturbe the input matrix and then multiply noise matrix(e.g.,the random Gaussian matrix).
+
+In addition, it is mentioned in some literature that various diagnostic techniques are used to evaluate the model capabilities in order to modify the model according to actual needs. In releasing differentially private residual plots, it is important to determine the bounds on the predicted $y$ and the residuals $r$. ~\cite{Yan2017Differentially} propose a algorithm to estimate bounds on residuals using $\epsilon_1$ of the total $\epsilon$ budget and compute distributions of residuals using the remaining budget $\epsilon_2 = \epsilon - \epsilon_1$ for linear regression.
+
+\subsection{Linear SVM}
+Support vector machine (SVM) is a two-class model and implements an original cutting plane algorithm. The basic idea of SVM learning is to solve the separation hyperplane that can correctly divide the training data set and have the largest geometric interval. This hyperplane can be represented by a classification function:
+\begin{equation}
+f(x)=w^{T}x + b
+\end{equation}
+
+The parameter $w$ and $b$ can be computed by minimizing $\max(\frac{1}{2}||w||^{2} - \Sigma_{i=1}^N\alpha_{i}(y_{i}(w \cdot x_{i} + b) - 1))$, where $\alpha _i$ is the Lagrange multiplier. After deriving we can get:
+\begin{equation}
+w^* = \Sigma_{i=1}^N\alpha_{i}^*y_{i}x_{i}
+\quad b^* = y_j - \Sigma_{i=1}^N\alpha_{i}^*y_{i}(x_i \cdot x_j)
+\end{equation}
+
+Convex optimization is most commonly used for empirical risk minimization (ERM). The objective is to approach the expected risk with the minimum value of empirical risk. And Convex ERM is often used to fit the support vector machine model. ~\cite{Bassily2014Differentially} introduced a differentially private algorithm that can improve on the non-smooth loss functions for convex empirical risk minimization and use three techniques to implement this algorithm such as gradient descent, exponential sampling and localization. They use a simple output perturbation algorithm, first compute $\theta^* = argminL(\theta ; D)$ and add noise according to the sensitivity of $\theta^*$.
+
+~\cite{Rubinstein2009Learning} considered the level of differential privacy guaranteed for statistical query and studied the trade-off between utility and risk in private SVM. They proposed two effective mechanisms, one for finite dimensional feature mapping and the other for potential infinite dimensional feature mapping. The first mechanism is as follows: after get the SVM's weight vector, they calculated the $L_1$-sensitivity of the weight vector and added Laplace noise with scale equal to sensitivity divided by $\beta$ to show the $\beta$-differential privacy. In addition, they exploited the algorithmic stability of regularized ERM to calculate sensitivity. The second mechanism will be mentioned later.
+
+Model analysis tasks is to find the parameters of the model that best fit the dataset. The effectiveness of the model fitting algorithm and the amount of disturbance required to satisfy the privacy guarantee become the key to the quality of the tasks. ~\cite{Zhang2013PrivGene} focused on PrivGene, a fitting solution based on genetic algorithms, to achieve higher overall quality of results with less perturbations. It is worth noting that PrivGene uses a new technique called the enhanced exponential mechanism which improve the exponential mechanism by using the special properties of model-fitting tasks to perform random perturbations. They use two parent vectors $w^1$ and $w^2$ as input and obtain two new vectors $v^1$ and $v^2$ with recombining the elements of the input, and then they add random noise to the elements of $v$. Then they applied PrivGene to model fitting tasks such as SVM classification and logistic regression and proved that it is superior to existing methods while satisfying differential privacy.
+
+
+
+\subsection{Logistic Regression}
+Logistic regression aims to learn a classification model from features and the most common used one in practice is the two classification. First, it use logistic function ($g(z)=\frac{1}{1+e^{-z}}$) to map the linear combination of features to (0,1). We construct the prediction function as: $h_{\theta}(x)=g(\theta^{T}x)=\frac{1}{1+e^{-\theta^{T}x}}$, where $x$ is an n-dimensional vector, function $g$ is a logistic function and $h_{\theta}(x)$ indicates the probability that the result is 1. From the above, when $\theta^{T}x\gg0$, $h_{\theta}(x)$=1, otherwise $h_{\theta}(x)$=0. Then we construct the loss function and find the regression parameters $\theta$ to minimize the loss function. For a model consisting of a loss function, the model generalization ability may be poor due to excessive fitting of the training data. Overfitting problems can be solved by adding a regularization or penalty to the empirical risk.
+
+
+
+
+~\cite{Zhang2012Functional} analyzes sensitivity and inserts noise on the objective functions. To solve logistic regression problem, they use the low-end part of Taylor expansion of the function and add noise to the parameters. However, their mechanism is not applied to the complicated objective function(e.g., Cox regression).
+
+Objective perturbation technique can be considered to add a linear perturbation $<B,\theta>$ to the empirical loss, where $B$ is a random vector drawn from a gamma distribution.
+~\cite{Kifer2013Private} proposed a differential private algorithm based on convex empirical risk minimization (ERM) and aimed to find solutions with few non-zero coefficients. They significantly improve the existing objective perturbation algorithm for convex ERM problems with less noise and this makes the algorithm more accurate. They propose Gaussian distribution (instead of gamma) can be used to obtain the perturbation $B$.
+
+The most important point to achieve end-to-end differential privacy is how to find an effective procedure for differentially private parameter tuning. Under certain stability conditions, ~\cite{Chaudhuri2013A} proved it is possible to implement efficient parameter tuning with differential privacy in a more general setup. It is worth noting that the training set size and the privacy budget are independent of the number of parameter values during their training.
+
+~\cite{Yu2014Differentially} pay attention to release GWAS data in a way that protects privacy. To solve regression problems with convex penalty functions, they proposed an end-to-end differentially  private method. They focused on penalized logistic regression with elastic-net regularization and extended the method for selecting the regularization parameters that is mentioned in ~\cite{Chaudhuri2013A}. Based on the results of ~\cite{Kifer2013Private}, they use cross-validation to implement a differentially private procedure for penalized logistic regression.
+
+
+
+
+\subsection{Kernel SVM}
+In the dual problem of linear support vector machine learning, we replace the inner product with the kernel function to get the classification decision function of kernel SVM. The kernel function represents the inner product between two instances after a nonlinear transformation. $K(x,z)$, as a kernel function, means a mapping from input space to feature space $\phi(x)$. So there is $K(x,z) = \phi(x) \cdot \phi(z)$ for any $(x,z)$ in input space. The resulting classification decision function can be expressed as: $f(x) = sign\left(\Sigma_{i=1}^N\alpha_{i}^*y_{i}K(x,x_i) + b^*\right)$. Here we introduce a commonly used kernel function - Gaussian kernel function: $K(x,z) = exp \left( -\frac{||x - z||^2}{ 2\sigma^2 }\right)$.
+
+
+Considering the characteristics of biomedical data, ~\cite{Li2014Privacy} developed a differential private support vector machine (SVM) model using existing public data and private data information. They computed the parameters in the RBF kernel function with public data and trained private classifers with linear SVM based on the private data. Finally, they inject noise into the parameters through the Laplace mechanism.
+
+In ~\cite{Jain2014Differentially}, they considered how to implement differential privacy by accessing training features only through kernel functions. They accessed to each data just through the kernel ERM and constructed three simpler models for kERM where they provided different algorithms and  inject different Laplacian noise into the output of each algorithm to guarantee differential privacy to the training data.
+
+%\section{Decision Tree Learning}
+\subsection{Decision Tree Learning}
+Decision Tree is a basic classification and regression method and it is a tree structure that describes the classification of instances.
+When using the model for prediction, the judgment nodes are sequentially judged according to the input parameters, and finally the leaf nodes are predicted results. The core of decision tree learning is to construct a suitable decision tree by learning the data and selecting the judgment nodes. In the decision tree algorithm, we select the optimal features by Gini impurity or entropy and segment the dataset with the optimal features. We may have over-fitting in the decision tree we train, so we can manually set a threshold of information gain to achieve decision tree pruning. The decision tree mainly solves the classification problem (the result is discrete data). If the result is a number, the variance can be used instead of entropy or Gini impurity. Commonly used decision tree algorithms include ID3 algorithm, C4.5 algorithm and CART algorithm.
+
+~\cite{Jagannathan2012A} studied using decision trees to build private classifiers which can satisfy differential privacy. They constructed privacy-preserving ID3 decision trees with low-level differentially private sum queries, but this model can not provide high privacy and high accuracy at the same time. Then They used a random decision tree to generate a classifier to solve this problem. Note that they added $Lap\left(\frac{1}{\epsilon}\right)$ noise to the component of $V$ and then they released the resulting noisy vector.
+In addition, in order to periodically attach new data to the existing database, they proposed a differential privacy algorithm.
+
+
+
+~\cite{Bojarski2014Differentially} studied to construct a sufficient number of random decision trees in which any given node is chosen uniformly at random from all the features to eventually form a random forest. They add perturbation noise to the counters in leaves rather than the inner nodes to meet the requirements of differential privacy. They proved that majority voting, threshold averaging and probabilistic averaging are good differentially private classifiers.
+
+
+%\subsection{others}\label{}
+%~\cite{ChaudhuriSignal}
+
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{dpsl}
+
+
+
+\end{document}
+

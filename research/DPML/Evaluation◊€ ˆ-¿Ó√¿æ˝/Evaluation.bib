@@ -1,0 +1,191 @@
+@inproceedings{1,
+  title={Generalization in adaptive data analysis and holdout reuse},
+  author={Dwork, Cynthia and Hardt, Moritz and Hardt, Moritz and Reingold, Omer and Reingold, Omer and Roth, Aaron},
+  booktitle={International Conference on Neural Information Processing Systems},
+  pages={2350-2358},
+  year={2015},
+ keywords={Computer Science - Learning;Computer Science - Data Structures and Algorithms},
+ abstract={Abstract:  Overfitting is the bane of data analysts, even when data are plentiful. Formal approaches to understanding this problem focus on statistical inference and generalization of individual analysis procedures. Yet the practice of data analysis is an inherently interactive and adaptive process: new analyses and hypotheses are proposed after seeing the results of previous ones, parameters are tuned on the basis of obtained results, and datasets are shared and reused. An investigation of this gap has recently been initiated by the authors in (Dwork et al., 2014), where we focused on the problem of estimating expectations of adaptively chosen functions. In this paper, we give a simple and practical method for reusing a holdout (or testing) set to validate the accuracy of hypotheses produced by a learning algorithm operating on a training set. Reusing a holdout set adaptively multiple times can easily lead to overfitting to the holdout set itself. We give an algorithm that enables the validation of a large number of adaptively chosen hypotheses, while provably avoiding overfitting. We illustrate the advantages of our algorithm over the standard use of the holdout set via a simple synthetic experiment. We also formalize and address the general problem of data reuse in adaptive data analysis. We show how the differential-privacy based approach given in (Dwork et al., 2014) is applicable much more broadly to adaptive data analysis. We then show that a simple approach based on description length can also be used to give guarantees of statistical validity in adaptive settings. Finally, we demonstrate that these incomparable approaches can be unified via the notion of approximate max-information that we introduce.},
+}
+
+@book{2,
+  title={Differentially-Private Logistic Regression for Detecting Multiple-SNP Association in GWAS Databases},
+  author={Yu, Fei and Rybar, Michal and Uhler, Caroline and Fienberg, Stephen E.},
+  publisher={Springer International Publishing},
+  pages={170-184},
+  year={2014},
+ keywords={Differential privacy;genome-wide association studies (GWAS;logistic regression;elastic-net;ridge regression;lasso;cross-validation;single nucleotide polymorphism (SNP},
+ abstract={Following the publication of an attack on genome-wide association studies (GWAS) data proposed by Homer et al., considerable attention has been given to developing methods for releasing GWAS data in a privacy-preserving way. Here, we develop an end-to-end differentially private method for solving regression problems with convex penalty functions and selecting the penalty parameters by cross-validation. In particular, we focus on penalized logistic regression with elastic-net regularization, a method widely used to in GWAS analyses to identify disease-causing genes. We show how a differentially private procedure for penalized logistic regression with elastic-net regularization can be applied to the analysis of GWAS data and evaluate our method's performance.},
+}
+
+@article{3,
+  title={A stability-based validation procedure for differentially private machine learning},
+  author={Chaudhuri, K. and Vinterbo, S.},
+  journal={Advances in Neural Information Processing Systems},
+  pages={2652-2660},
+  year={2013},
+ abstract={Differential privacy is a cryptographically motivated definition of privacy which has gained considerable attention in the algorithms, machine-learning and data-mining communities. While there has been an explosion of work on differentially private machine learning algorithms, a major barrier to achieving end-to-end differential privacy in practical machine learning applications is the lack of an effective procedure for differentially private parameter tuning, or, determining the parameter value, such as a bin size in a histogram, or a regularization parameter, that is suitable for a particular application. In this paper, we introduce a generic validation procedure for differentially private machine learning algorithms that apply when a certain stability condition holds on the training algorithm and the validation performance metric. The training data size and the privacy budget used for training in our procedure is independent of the number of parameter values searched over. We apply our generic procedure to two fundamental tasks in statistics and machine-learning -- training a regularized linear classifier and building a histogram density estimator that result in end-to-end differentially private solutions for these problems.},
+}
+
+@article{4,
+  title={Differential privacy for functions and functional data},
+  author={Hall, Rob and Rinaldo, Alessandro and Wasserman, Larry},
+  journal={Journal of Machine Learning Research},
+  volume={14},
+  number={1},
+  pages={703-727},
+  year={2012},
+ keywords={Gaussian processes;density estimation;differential privacy;reproducing kernel Hilbert space},
+ abstract={Abstract:  Differential privacy is a framework for privately releasing summaries of a database. Previous work has focused mainly on methods for which the output is a finite dimensional vector, or an element of some discrete set. We develop methods for releasing functions while preserving differential privacy. Specifically, we show that adding an appropriate Gaussian process to the function of interest yields differential privacy. When the functions lie in the same RKHS as the Gaussian process, then the correct noise level is established by measuring the "sensitivity" of the function in the RKHS norm. As examples we consider kernel density estimation, kernel support vector machines, and functions in reproducing kernel Hilbert spaces.},
+}
+
+
+
+@inproceedings{8,
+  title={Pythia: Data Dependent Differentially Private Algorithm Selection},
+  author={Kotsogiannis, Ios and Machanavajjhala, Ashwin and Hay, Michael and Miklau, Gerome},
+  booktitle={ACM International Conference on Management of Data},
+  pages={1323-1337},
+  year={2017},
+ keywords={differential privacy;end-to-end privacy;regret learning},
+ abstract={Differential privacy has emerged as a preferred standard for ensuring privacy in analysis tasks on sensitive datasets. Re- cent algorithms have allowed for significantly lower error by adapting to properties of the input data. These so-called data-dependent algorithms have different error rates for dif- ferent inputs. There is now a complex and growing land- scape of algorithms without a clear winner that can offer low error over all datasets. As a result, the best possible error rates are not attainable in practice, because the data curator cannot know which algorithm to select prior to ac- tually running the algorithm.We address this challenge by proposing a novel meta- algorithm designed to relieve the data curator of the bur- den of algorithm selection. It works by learning (from non- sensitive data) the association between dataset properties and the best-performing algorithm. The meta-algorithm is deployed by first testing the input for low-sensitivity prop- erties and then using the results to select a good algorithm. The result is an end-to-end differentially private system: Pythia, which we show offers improvements over using any single algorithm alone. We empirically demonstrate the ben- efit of Pythia for the tasks of releasing histograms, answering 1- and 2-dimensional range queries, as well as for construct- ing private Naive Bayes classifiers.},
+}
+
+@article{9,
+  title={Differentially private model selection with penalized and constrained likelihood},
+  author={Lei J, Charest A S, Slavkovic A},
+  journal={Journal of the Royal Statistical Society: Series A (Statistics in Society)},
+  volume={181},
+  number={3},
+  pages={609-633},
+  year={2018},
+}
+
+@inproceedings{10,
+  title={Differential Privacy for Classifier Evaluation},
+  author={Boyd, Kendrick and Lantz, Eric and Page, David},
+  booktitle={ACM Workshop on Artificial Intelligence and Security},
+  pages={15-23},
+  year={2015},
+ keywords={ROC curve;average precision;differential privacy},
+ abstract={Differential privacy provides powerful guarantees that individuals incur minimal additional risk by including their personal data in a database. Most work in differential privacy has focused on differentially private algorithms that produce models, counts, and histograms. Nevertheless, even with a classification model produced by a differentially private algorithm, directly reporting the classifier's performance on a database has the potential for disclosure. Thus, differentially private computation of evaluation metrics for machine learning is an important research area. We find effective mechanisms for area under the receiver-operating characteristic (ROC) curve and average precision.},
+}
+
+@article{11,
+  title={Is my model any good: differentially private regression diagnostics},
+  author={Chen, Yan and Barrientos, Andreos F. and Machanavajjhala, Ashwin and Reiter, Jerome P.},
+  journal={Knowledge $\&$ Information Systems},
+  volume={54},
+  number={1},
+  pages={1-32},
+  year={2017},
+ abstract={Linear and logistic regression are popular statistical techniques for analyzing multi-variate data. Typically, analysts do not simply posit a particular form of the regression model, estimate its para},
+}
+
+@article{5,
+  title={Deep Learning with Differential Privacy},
+  author={Abadi, Martin and Chu, Andy and Goodfellow, Ian and Mcmahan, H. Brendan and Mironov, Ilya and Talwar, Kunal and Zhang, Li},
+  pages={308-318},
+  year={2016},
+ keywords={Statistics - Machine Learning;Computer Science - Cryptography and Security;Computer Science - Learning},
+ abstract={Abstract:  Machine learning techniques based on neural networks are achieving remarkable results in a wide variety of domains. Often, the training of models requires large, representative datasets, which may be crowdsourced and contain sensitive information. The models should not expose private information in these datasets. Addressing this goal, we develop new algorithmic techniques for learning and a refined analysis of privacy costs within the framework of differential privacy. Our implementation and experiments demonstrate that we can train deep neural networks with non-convex objectives, under a modest privacy budget, and at a manageable cost in software complexity, training efficiency, and model quality.},
+}
+
+@inproceedings{6,
+  title={Differentially private Bayesian optimization},
+  author={Kusner, Matt J and Gardner, Jacob R and Garnett, Roman and Weinberger, Kilian Q},
+  booktitle={International Conference on International Conference on Machine Learning},
+  pages={918-927},
+  year={2015},
+}
+
+@article{12,
+  title={Differentially private significance tests for regression coefficients},
+  author={Barrientos, Andreos F. and Reiter, Jerome P. and Machanavajjhala, Ashwin and Chen, Yan},
+  year={2017},
+ keywords={Statistics - Methodology},
+ abstract={Many data producers seek to provide users access to confidential data without unduly compromising data subjects' privacy and confidentiality. When intense redaction is needed to do so, one general strategy is to require users to do analyses without seeing the confidential data, for example, by releasing fully synthetic data or by allowing users to query remote systems for disclosure-protected outputs of statistical models. With fully synthetic data or redacted outputs, the analyst never really knows how much to trust the resulting findings. In particular, if the user did the same analysis on the confidential data, would regression coefficients of interest be statistically significant or not? We present algorithms for assessing this question that satisfy differential privacy. We describe conditions under which the algorithms should give accurate answers about statistical significance. We illustrate the properties of the methods using artificial and genuine data.},
+}
+
+@inproceedings{13,
+  title={Differential Privacy for Clinical Trial Data: Preliminary Evaluations},
+  author={Vu, Duy and Slavkovic, A},
+  booktitle={IEEE International Conference on Data Mining Workshops},
+  pages={138-143},
+  year={2009},
+ keywords={data privacy;medical administrative data processing;statistical testing;binomial random variables;classical statistical hypothesis testing;clinical trial data;cryptographic community;data mining;differential privacy;statistical analysis},
+ abstract={The concept of differential privacy as a rigorous definition of privacy has emerged from the cryptographic community. However, further careful evaluation is needed before we can apply these theoretical results to privacy preservation in everyday data mining and statistical analysis. In this paper we demonstrate how to integrate a differential privacy framework with the classical statistical hypothesis testing in the domain of clinical trials where personal information is sensitive. We develop concrete methodology that researchers can use. We derive rules for the sample size adjustment whereby both statistical efficiency and differential privacy can be achieved for the specific tests for binomial random variables and in contingency tables.},
+}
+
+@inproceedings{14,
+  title={A Quantitative Approach for Evaluating the Utility of a Differentially Private Behavioral Science Dataset},
+  author={Hill, Raquel and Hansen, Michael and Janssen, Erick and Sanders, Stephanie A. and Heiman, Julia R. and Xiong, Li},
+  booktitle={IEEE International Conference on Healthcare Informatics},
+  pages={276-284},
+  year={2014},
+ keywords={Behavioral Science;Data Privacy;Differential Privacy},
+ abstract={Social scientists who collect large amounts of medical data value the privacy of their survey participants. As they follow participants through longitudinal studies, they develop unique profiles of these individuals. A growing challenge for these researchers is to maintain the privacy of their study participants, while sharing their data to facilitate research. Differential privacy is a new mechanism which promises improved privacy guarantees for statistical databases. We evaluate the utility of a differentially private dataset. Our results align with the theory of differential privacy and show when the number of records in the database is sufficiently larger than the number of cells covered by a database query, the number of statistical tests with results close to those performed on original data increases.},
+}
+
+@inproceedings{15,
+  title={Differential privacy},
+  author={Dwork, Cynthia},
+  booktitle={International Colloquium on Automata, Languages, and Programming},
+  pages={1-12},
+  year={2006},
+}
+
+@article{16,
+  title={Differentially Private Chi-Squared Hypothesis Testing: Goodness of Fit and Independence Testing},
+  author={Gaboardi, Marco and Lim, Hyun Woo and Rogers, Ryan and Vadhan, Salil},
+  pages={2111-2120},
+  year={2016},
+}
+
+@article{17,
+  title={Differentially Private Hypothesis Testing, Revisited},
+  author={Wang, Yue and Lee, Jaewoo and Kifer, Daniel},
+  journal={Statistics},
+  volume={22},
+  number={5},
+  pages={821 - 825},
+  year={2015},
+}
+
+@article{18,
+  title={Differentially Private Least Squares: Estimation, Confidence and Rejecting the Null Hypothesis},
+  author={Sheffet, Or},
+  year={2015},
+}
+
+@article{19,
+  title={Private False Discovery Rate Control},
+  author={Dwork, Cynthia and Su, Weijie and Zhang, Li},
+  journal={Computer Science},
+  year={2015},
+}
+
+@inproceedings{20,
+  title={Differentially Private Exponential Random Graphs},
+  author={Karwa, Vishesh and Slavkovi?, Aleksandra B. and Krivitsky, Pavel},
+  booktitle={Privacy in Statistical Databases},
+  year={2014},
+}
+
+@article{21,
+  title={Privacy-Preserving Data Sharing for Genome-Wide Association Studies.},
+  author={Uhlerop, C and Slavkovi?, A and Fienberg, S. E.},
+  journal={Journal of Privacy $\&$ Confidentiality},
+  volume={5},
+  number={1},
+  pages={137},
+  year={2013},
+}
+
+@inproceedings{22,
+  title={Privacy Preserving GWAS Data Sharing},
+  author={Fienberg, Stephen E. and Slavkovic, Aleksandra and Uhler, Caroline},
+  booktitle={IEEE  International Conference on Data Mining Workshops},
+  pages={628-635},
+  year={2011},
+}
